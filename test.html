@@ -3,44 +3,48 @@
   <head>
     <meta charset="UTF-8" />
     <title>SM4 Test</title>
-    <script type="module" src="libsm_js.js"></script>
   </head>
   <body>
     <h1>SM4 Encryption Test</h1>
-    <button id="runTestsButton" onclick="runTests()">Run Tests</button>
+    <input type="text" id="plaintextInput" />
+    <button id="runTestsButton">Run Tests</button>
     <pre id="testOutput"></pre>
 
     <script type="module">
-      import __wbg_init from './libsm_js.js'
-      import {SM4} from './libsm_js.js'
+      import __wbg_init from './pkg/libsm_js.js'
+      import { SM4 } from './pkg/libsm_js.js'
 
-      await __wbg_init("libsm_js_bg.wasm")
+      async function initialize() {
+        await __wbg_init('/pkg/libsm_js_bg.wasm')
 
-        const output = document.getElementById('testOutput')
-        const plaintext = 'hello'
+        function runTests() {
+          const output = document.getElementById('testOutput')
+          const plaintext = document.getElementById('plaintextInput').value
 
-        try {
-          const sm4 = new SM4()
-          let encoder = new TextEncoder();
-          let decoder = new TextDecoder();
-          let uint8Array = encoder.encode(plaintext);
+          try {
+            const sm4 = new SM4()
+            let encoder = new TextEncoder()
+            let decoder = new TextDecoder()
+            let uint8Array = encoder.encode(plaintext)
 
-          const ciphertext = sm4.encrypt(uint8Array)
-          const decrypted = sm4.decrypt(ciphertext)
+            const ciphertext = sm4.encrypt(uint8Array)
+            const decrypted = sm4.decrypt(ciphertext)
 
-          const result = decoder.decode(decrypted);
+            const result = decoder.decode(decrypted)
 
-         output.textContent += `加密前: ${plaintext}\n`
-         output.textContent += `加密后: ${ciphertext}\n`
-         output.textContent += `解密后: ${result}\n`
+            output.textContent += `加密前: ${plaintext}\n`
+            output.textContent += `加密后: ${ciphertext}\n`
+            output.textContent += `解密后: ${result}\n`
 
-          sm4.free()
-        } catch (e) {
-          output.textContent += `Error: ${e.message}\n`
+            sm4.free()
+          } catch (e) {
+            output.textContent += `Error: ${e.message}\n`
+          }
         }
-      // }
+
+        document.getElementById('runTestsButton').addEventListener('click', runTests)
+      }
+      initialize()
     </script>
-    </script>
-      
   </body>
 </html>
