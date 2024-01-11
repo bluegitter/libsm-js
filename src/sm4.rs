@@ -1,6 +1,8 @@
 use libsm::sm4::{cipher_mode::Sm4CipherMode, Cipher, Mode};
 use wasm_bindgen::prelude::*;
 
+const DEFAULT_KEY: &[u8; 16] = b"1234567890abcdef";
+
 #[wasm_bindgen]
 pub struct SM4 {
     cipher: Sm4CipherMode,
@@ -10,7 +12,14 @@ pub struct SM4 {
 #[wasm_bindgen]
 impl SM4 {
     #[wasm_bindgen(constructor)]
-    pub fn new(key: &[u8]) -> SM4 {
+    pub fn new() -> SM4 {
+        SM4 {
+            cipher: Cipher::new(DEFAULT_KEY, Mode::Cbc),
+            key: DEFAULT_KEY.to_vec(),
+        }
+    }
+
+    pub fn new_with_key(key: &[u8]) -> SM4 {
         SM4 {
             cipher: Cipher::new(key, Mode::Cbc),
             key: key.to_vec(),
