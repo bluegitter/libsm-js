@@ -32,8 +32,12 @@
 
             const result = decoder.decode(decrypted)
 
+            const hexString = Array.from(ciphertext)
+              .map((byte) => byte.toString(16).padStart(2, '0'))
+              .join('')
+
             output.textContent += `加密前: ${plaintext}\n`
-            output.textContent += `加密后: ${ciphertext}\n`
+            output.textContent += `加密后: ${hexString}\n`
             output.textContent += `解密后: ${result}\n`
 
             sm4.free()

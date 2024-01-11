@@ -1,7 +1,7 @@
 use libsm::sm4::{cipher_mode::Sm4CipherMode, Cipher, Mode};
 use wasm_bindgen::prelude::*;
 
-const DEFAULT_KEY: &[u8; 16] = b"1234567890abcdef";
+const DEFAULT_KEY: &[u8; 16] = b"\x01\x23\x45\x67\x89\xab\xcd\xef\xfe\xdc\xba\x98\x76\x54\x32\x10";
 
 #[wasm_bindgen]
 pub struct SM4 {
