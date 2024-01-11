@@ -17,6 +17,8 @@ npm i @lifeni/libsm-js
 ## Build & Publish
 
 ```sh
+git clone --recurse-submodules https://github.com/bluegitter/libsm-js
+cd libsm-js
 wasm-pack build --target web --scope lifeni
 cd pkg
 npm publish --access=public
